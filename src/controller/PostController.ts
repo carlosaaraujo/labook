@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
 import { PostBusiness } from "../business/PostBusiness";
-import { ICreatePostDTO, IDeletePostDTO } from "../models/Post";
+import { ICreatePostDTO, IDeletePostDTO, IDislikeDTO, ILikeDTO } from "../models/Post";
 
 export class PostController {
 	constructor(private postBusiness: PostBusiness) {}
 
-	public createPost = async (req: Request, res: Response) => {
+	public createPost = async (req: Request, res: Response): Promise<void> => {
 		try {
 			const input: ICreatePostDTO = {
 				token: req.headers.authorization as string,
@@ -19,9 +19,9 @@ export class PostController {
 		}
 	};
 
-	public getAllPosts = async (req: Request, res: Response) => {
+	public getAllPosts = async (req: Request, res: Response): Promise<void> => {
 		try {
-			const token: any = req.headers.authorization;
+			const token: string = req.headers.authorization || "";
 
 			const result = await this.postBusiness.getAllPosts(token);
 			res.status(201).send(result);
@@ -30,7 +30,7 @@ export class PostController {
 		}
 	};
 
-	public deletePost = async (req: Request, res: Response) => {
+	public deletePost = async (req: Request, res: Response): Promise<void> => {
 		try {
 			const input: IDeletePostDTO = {
 				token: req.headers.authorization as string,
@@ -44,9 +44,9 @@ export class PostController {
 		}
 	};
 
-	public like = async (req: Request, res: Response) => {
+	public like = async (req: Request, res: Response): Promise<void> => {
 		try {
-			const input: any = {
+			const input: ILikeDTO = {
 				token: req.headers.authorization as string,
 				post_id: req.params.id,
 			};
@@ -58,9 +58,9 @@ export class PostController {
 		}
 	};
 
-	public dislike = async (req: Request, res: Response) => {
+	public dislike = async (req: Request, res: Response): Promise<void> => {
 		try {
-			const input: any = {
+			const input: IDislikeDTO = {
 				token: req.headers.authorization as string,
 				post_id: req.params.id,
 			};
