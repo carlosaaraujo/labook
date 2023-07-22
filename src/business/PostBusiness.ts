@@ -1,5 +1,5 @@
 import { PostDatabase } from "../database/PostDatabase";
-import { ICreatePostDTO, ILikeDB, Post } from "../models/Post";
+import { ICreatePostDTO, IDeletePostDTO, IDislikeDTO, ILikeDB, ILikeDTO, Post } from "../models/Post";
 import { USER_ROLES } from "../models/User";
 import { Authenticator } from "../services/Authenticator";
 import { IdGenerator } from "../services/IdGenerator";
@@ -12,8 +12,7 @@ export class PostBusiness {
 	) {}
 
 	public createPost = async (input: ICreatePostDTO) => {
-		const token = input.token;
-		const content = input.content;
+		const {token, content} = input
 
 		if (!token) {
 			throw new Error("É preciso preencher o campo 'token'");
@@ -66,9 +65,8 @@ export class PostBusiness {
 		return result;
 	};
 
-	public deletePost = async (input: any) => {
-		const token = input.token;
-		const id = input.id;
+	public deletePost = async (input: IDeletePostDTO) => {
+		const {token, id} = input
 
 		if (!token || !id) {
 			throw new Error("Você não está autorizado!");
@@ -102,7 +100,7 @@ export class PostBusiness {
 		return result;
 	};
 
-	public like = async (input: any) => {
+	public like = async (input: ILikeDTO) => {
 		const { token, post_id } = input;
 
 		if (!token) {
@@ -142,7 +140,7 @@ export class PostBusiness {
 		return result;
 	};
 
-	public dislike = async (input: any) => {
+	public dislike = async (input: IDislikeDTO) => {
 		const { token, post_id } = input;
 
 		if (!token) {
