@@ -5,7 +5,7 @@ import { ILoginInputDTO, ISignupInputDTO } from "../models/User";
 export class UserController {
 	constructor(private userBusiness: UserBusiness) {}
 
-	public signup = async (req: Request, res: Response) => {
+	public signup = async (req: Request, res: Response): Promise<void> => {
 		try {
 			const input: ISignupInputDTO = {
 				name: req.body.name,
@@ -14,14 +14,13 @@ export class UserController {
 			};
 
 			const result = await this.userBusiness.signup(input);
-
 			res.status(201).send(result);
 		} catch (error: any) {
 			res.status(400).send({ message: error.message });
 		}
 	};
 
-	public login = async (req: Request, res: Response) => {
+	public login = async (req: Request, res: Response): Promise<void> => {
 		try {
 			const input: ILoginInputDTO = {
 				email: req.body.email,
