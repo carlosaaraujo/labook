@@ -20,6 +20,16 @@ export interface IDeletePostDTO {
 	id: string;
 }
 
+export interface ILikeDTO {
+	token: string | undefined;
+	post_id: string;
+}
+
+export interface IDislikeDTO {
+	token: string | undefined;
+	post_id: string;
+}
+
 export class Post {
 	constructor(
 		private id: string,
